@@ -29,6 +29,7 @@ func main() {
 			log.Println("fatal:", err)
 			return
 		}
+		log.Println(issue)
 	})
 
 	r.HandleFunc("/callback", func(rw http.ResponseWriter, req *http.Request) {
