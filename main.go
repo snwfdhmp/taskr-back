@@ -2,8 +2,10 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"net/http"
 
+	"github.com/bradleyfalzon/ghinstallation"
 	"github.com/google/go-github/github"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
@@ -16,6 +18,15 @@ var (
 
 func main() {
 	r := mux.NewRouter()
+
+	tr := http.DefaultTransport
+
+	itr, err := ghinstallation.NewKeyFromFile(tr, 9218, 88627, "key.pem")
+	if err != nil {
+		log.Fatalln(err)
+		return
+	}
+	client := github.NewClient(&http.Client{Transport: itr})
 
 	r.HandleFunc("/webhook", func(rw http.ResponseWriter, req *http.Request) {
 		hook, err := githubhook.Parse(appSecret, req)
@@ -46,6 +57,15 @@ func main() {
 			issue := data.GetIssue().GetTitle()
 			body := data.GetComment().GetBody()
 			log.Printf("New comment '%s' by %s on issue '%s' on repo %s", body, name, issue, repo)
+			list, _, err := client.Repositories.List(context.Background(), "snwfdhmp", &github.RepositoryListOptions{Type: "owner", Sort: "updated", Direction: "desc"})
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			for _, l := range list {
+				log.Println(l.GetFullName())
+			}
+
 		} else if data, ok := payload.(*github.IssuesEvent); ok {
 			name := data.GetSender().GetLogin()
 			repo := data.GetRepo().GetFullName()
