@@ -47,8 +47,8 @@ func print(req *http.Request) {
 	log.Println(req.Header.Get("x-github-delivery"))
 }
 
-const (
-	appSecret = `-----BEGIN RSA PRIVATE KEY-----
+var (
+	appSecret = []byte(`-----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEAq6TyY9yHbly0xlRbWo+pPaBpT597gNBBCjbqOcZLCqbHI+ML
 ULrwyUwGNJub5L72hPt2hTcrTTXMsndzMnhKyEBMKg032J/LtH+1z9gieF8go6WD
 lExz/xw7h7zvnCZL7MBqsmB5VkB5mvu8g0TTqzGHpXi82LmXt7YKfF1MFkKEind+
@@ -75,5 +75,5 @@ lmGT5oECgYACBm122fP/14zbc7E7UR+oeS7xcDy7keI4eY6oa/5A73DgH6FfKPEm
 93bg0LIVJgj2OMiwaXc9Vzp/eApwcOK6VZjLGEIzFU8limsAS49aZAfCcWFbZCJj
 VFN9+HzThCaM53wNMeYl55uaTJzen/feVcPhsn+3kHuSxkjiInIn2A==
 -----END RSA PRIVATE KEY-----
-`
+`)
 )
