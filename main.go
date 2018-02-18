@@ -25,11 +25,18 @@ func main() {
 			return
 		}
 		var payload github.WebHookPayload
-		if err := json.Unmarshal(hook.Payload, &payload); err != nil {
+		// if err := json.Unmarshal(hook.Payload, &payload); err != nil {
+		// 	log.Println("fatal:", err)
+		// 	return
+		// }
+		// log.Println("event on", payload.GetRepo().GetFullName(), "by", payload.GetSender().GetLogin())
+		// log.Println(payload)
+		payload, err := github.ParseWebHook(github.WebHookType(req), hook.Payload)
+		if err != nil {
 			log.Println("fatal:", err)
 			return
 		}
-		log.Println("event on", payload.GetRepo().GetFullName(), "by", payload.GetSender().GetLogin())
+
 		log.Println(payload)
 	})
 
