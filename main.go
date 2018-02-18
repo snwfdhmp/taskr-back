@@ -60,7 +60,9 @@ func main() {
 			body := data.GetComment().GetBody()
 			log.Printf("New comment '%s' by %s on issue '%s' on repo %s", body, name, issue, repo)
 
-			req, err := client.NewRequest("POST", fmt.Sprintf("/repos/%s/issues/%d/comments", repo, issueNumber), `{"body": "Me too"}`)
+			req, err := client.NewRequest("POST", fmt.Sprintf("/repos/%s/issues/%d/comments", repo, issueNumber), struct {
+				Body string `json:"body"`
+			}{"Heyyy this is me :D"})
 			if err != nil {
 				fmt.Println("fatal:", err)
 				return
