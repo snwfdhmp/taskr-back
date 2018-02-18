@@ -29,7 +29,7 @@ func main() {
 			log.Println("fatal:", err)
 			return
 		}
-		log.Println("event on", payload.GetRepo().GetFullName(), "by", payload.GetSender().GetName())
+		log.Println("event on", payload.GetRepo().GetFullName(), "by", payload.GetSender().GetLogin())
 		log.Println(payload)
 	})
 
