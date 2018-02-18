@@ -22,7 +22,7 @@ func main() {
 			log.Println("fatal:", err)
 			return
 		}
-		log.Println(hook)
+		log.Println(string(hook.Payload))
 	})
 
 	r.HandleFunc("/callback", func(rw http.ResponseWriter, req *http.Request) {
