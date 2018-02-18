@@ -44,10 +44,14 @@ func main() {
 			name := data.GetSender().GetLogin()
 			repo := data.GetRepo().GetFullName()
 			issue := data.GetIssue().GetTitle()
-			comment := data.GetComment().GetBody()
-			log.Printf("New comment '%s' by %s on issue '%s' on repo %s", comment, name, issue, repo)
-		} else if _, ok := payload.(*github.IssuesEvent); ok {
-			log.Println("is IssuesEvent")
+			body := data.GetComment().GetBody()
+			log.Printf("New comment '%s' by %s on issue '%s' on repo %s", body, name, issue, repo)
+		} else if data, ok := payload.(*github.IssuesEvent); ok {
+			name := data.GetSender().GetLogin()
+			repo := data.GetRepo().GetFullName()
+			issue := data.GetIssue().GetTitle()
+			body := data.GetIssue().GetBody()
+			log.Printf("New issue '%s' by %s on issue '%s' on repo %s", body, name, issue, repo)
 		} else if _, ok := payload.(*github.IssueEvent); ok {
 			log.Println("is IssueEvent")
 		} else if _, ok := payload.(*github.CreateEvent); ok {
