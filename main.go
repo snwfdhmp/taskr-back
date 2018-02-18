@@ -36,21 +36,22 @@ func main() {
 			return
 		}
 
-		log.Println(payload)
 		if _, ok := payload.(*github.Issue); ok {
 			log.Println("is issue")
-		}
-		if _, ok := payload.(*github.WebHookPayload); ok {
+		} else if _, ok := payload.(*github.WebHookPayload); ok {
 			log.Println("is WebHookPayload")
-		}
-		if _, ok := payload.(*github.IssueCommentEvent); ok {
-			log.Println("is IssueCommentEvent")
-		}
-		if _, ok := payload.(*github.IssueComment); ok {
+		} else if data, ok := payload.(*github.IssueCommentEvent); ok {
+			name := data.GetSender().GetLogin()
+			repo := data.GetRepo().GetFullName()
+			issue := data.GetIssue().GetTitle()
+			log.Printf("New comment by %s on issue '%s' on repo %s", name, issue, repo)
+		} else if _, ok := payload.(*github.IssueComment); ok {
 			log.Println("is IssueComment")
-		}
-		if _, ok := payload.(*github.User); ok {
+		} else if _, ok := payload.(*github.User); ok {
 			log.Println("is User")
+		} else {
+			log.Errorln("Cannot recognize payload. Printing")
+			log.Println(payload)
 		}
 	})
 
