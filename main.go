@@ -37,6 +37,21 @@ func main() {
 		}
 
 		log.Println(payload)
+		if _, ok := payload.(*github.Issue); ok {
+			log.Println("is issue")
+		}
+		if _, ok := payload.(*github.WebHookPayload); ok {
+			log.Println("is WebHookPayload")
+		}
+		if _, ok := payload.(*github.IssueCommentEvent); ok {
+			log.Println("is IssueCommentEvent")
+		}
+		if _, ok := payload.(*github.IssueComment); ok {
+			log.Println("is IssueComment")
+		}
+		if _, ok := payload.(*github.User); ok {
+			log.Println("is User")
+		}
 	})
 
 	r.HandleFunc("/callback", func(rw http.ResponseWriter, req *http.Request) {
