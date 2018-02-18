@@ -60,7 +60,7 @@ func main() {
 			body := data.GetComment().GetBody()
 			log.Printf("New comment '%s' by %s on issue '%s' on repo %s", body, name, issue, repo)
 
-			req, err := client.NewRequest("POST", fmt.Sprintf("/repos/%s/%s/issues/%s/comments", name, repo, issueNumber), `{
+			req, err := client.NewRequest("POST", fmt.Sprintf("/repos/%s/%s/issues/%d/comments", name, repo, issueNumber), `{
   "body": "Me too"
 }`)
 			if err != nil {
