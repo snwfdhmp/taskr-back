@@ -24,7 +24,7 @@ func main() {
 			log.Println("fatal:", err)
 			return
 		}
-		var issue github.Issue
+		var issue github.WebHookPayload
 		if err := json.Unmarshal(hook.Payload, &issue); err != nil {
 			log.Println("fatal:", err)
 			return
