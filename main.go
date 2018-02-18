@@ -36,5 +36,5 @@ func main() {
 		log.Println(buf.String())
 	})
 
-	http.ListenAndServe("0:9876", r)
+	panic(http.ListenAndServe(":9876", r))
 }
