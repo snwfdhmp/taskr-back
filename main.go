@@ -20,7 +20,7 @@ func main() {
 		secret := []byte("don't tell!")
 		hook, err := githubhook.Parse(secret, req)
 		if err != nil {
-			fmt.Println("fatal:", err)
+			log.Println("fatal:", err)
 			return
 		}
 		log.Println(hook)
