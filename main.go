@@ -29,7 +29,8 @@ func main() {
 			log.Println("fatal:", err)
 			return
 		}
-		log.Println("event on", payload.GetRepo().GetFullName(), ":", payload.GetAfter())
+		log.Println("event on", payload.GetRepo().GetFullName())
+		log.Println(payload)
 	})
 
 	r.HandleFunc("/callback", func(rw http.ResponseWriter, req *http.Request) {
