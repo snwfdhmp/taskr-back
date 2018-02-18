@@ -2,8 +2,10 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"net/http"
 
+	"github.com/google/go-github/github"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/rjz/githubhook.v0"
@@ -22,7 +24,11 @@ func main() {
 			log.Println("fatal:", err)
 			return
 		}
-		log.Println(string(hook.Payload))
+		var issue github.Issue
+		if err := json.Unmarshal(hook.Payload, &issue); err != nil {
+			log.Println("fatal:", err)
+			return
+		}
 	})
 
 	r.HandleFunc("/callback", func(rw http.ResponseWriter, req *http.Request) {
