@@ -24,12 +24,12 @@ func main() {
 			log.Println("fatal:", err)
 			return
 		}
-		var issue github.WebHookPayload
-		if err := json.Unmarshal(hook.Payload, &issue); err != nil {
+		var payload github.WebHookPayload
+		if err := json.Unmarshal(hook.Payload, &payload); err != nil {
 			log.Println("fatal:", err)
 			return
 		}
-		log.Println(issue)
+		log.Println("event from", payload.Sender.GetName(), ":", payload.GetRef())
 	})
 
 	r.HandleFunc("/callback", func(rw http.ResponseWriter, req *http.Request) {
