@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
 	"net/http"
 
 	"github.com/google/go-github/github"
@@ -24,7 +23,7 @@ func main() {
 			log.Println("fatal:", err)
 			return
 		}
-		var payload github.WebHookPayload
+		// var payload github.WebHookPayload
 		// if err := json.Unmarshal(hook.Payload, &payload); err != nil {
 		// 	log.Println("fatal:", err)
 		// 	return
