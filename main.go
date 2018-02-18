@@ -44,7 +44,8 @@ func main() {
 			name := data.GetSender().GetLogin()
 			repo := data.GetRepo().GetFullName()
 			issue := data.GetIssue().GetTitle()
-			log.Printf("New comment by %s on issue '%s' on repo %s", name, issue, repo)
+			comment := data.GetComment().GetBody()
+			log.Printf("New comment '%s' by %s on issue '%s' on repo %s", comment, name, issue, repo)
 		} else if _, ok := payload.(*github.IssueComment); ok {
 			log.Println("is IssueComment")
 		} else if _, ok := payload.(*github.User); ok {
