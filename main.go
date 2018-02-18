@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/bradleyfalzon/ghinstallation"
@@ -55,16 +56,33 @@ func main() {
 			name := data.GetSender().GetLogin()
 			repo := data.GetRepo().GetFullName()
 			issue := data.GetIssue().GetTitle()
+			issueNumber := data.GetIssue().GetNumber()
 			body := data.GetComment().GetBody()
 			log.Printf("New comment '%s' by %s on issue '%s' on repo %s", body, name, issue, repo)
-			list, _, err := client.Repositories.List(context.Background(), "snwfdhmp", &github.RepositoryListOptions{Type: "owner", Sort: "updated", Direction: "desc"})
+
+			req, err := client.NewRequest("POST", fmt.Sprintf("/repos/%s/%s/issues/%s/comments", name, repo, issueNumber), `{
+  "body": "Me too"
+}`)
 			if err != nil {
-				log.Fatalln(err)
+				fmt.Println("fatal:", err)
 				return
 			}
-			for _, l := range list {
-				log.Println(l.GetFullName())
+
+			var resp interface{}
+			_, err = client.Do(context.Background(), req, &resp)
+			if err != nil {
+				fmt.Println("fatal:", err)
+				return
 			}
+
+			// list, _, err := client.Repositories.List(context.Background(), "snwfdhmp", &github.RepositoryListOptions{Type: "owner", Sort: "updated", Direction: "desc"})
+			// if err != nil {
+			// 	log.Fatalln(err)
+			// 	return
+			// }
+			// for _, l := range list {
+			// 	log.Println(l.GetFullName())
+			// }
 
 		} else if data, ok := payload.(*github.IssuesEvent); ok {
 			name := data.GetSender().GetLogin()
